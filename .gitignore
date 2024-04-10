@@ -12,3 +12,6 @@ SECRET_CONFIG
 !.env.ci
 !.env
 !.env.template
+
+# sst
+.sst

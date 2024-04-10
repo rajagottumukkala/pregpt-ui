@@ -102,6 +102,10 @@ async function getOIDCClient(settings: OIDCSettings): Promise<BaseClient> {
 		redirect_uris: [settings.redirectURI],
 		response_types: ["code"],
 		[custom.clock_tolerance]: OIDConfig.TOLERANCE || undefined,
+		[custom.http_options]: ({url, options}: {url: any, options:any}) => {
+			console.log(url);
+			return { timeout: 10000}
+		}
 	});
 }
 

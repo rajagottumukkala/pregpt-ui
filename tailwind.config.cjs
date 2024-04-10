@@ -16,7 +16,7 @@ export default {
 			fontSize: {
 				xxs: "0.625rem",
 				smd: "0.94rem",
-			},
+			}
 		},
 	},
 	plugins: [
