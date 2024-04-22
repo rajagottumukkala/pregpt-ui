@@ -33,6 +33,8 @@ const stringWithDefault = (value: string) =>
 		.default(value)
 		.transform((el) => (el ? el : value));
 
+custom.setHttpOptionsDefaults({ timeout: 5000 })
+
 export const OIDConfig = z
 	.object({
 		CLIENT_ID: stringWithDefault(OPENID_CLIENT_ID),
@@ -101,11 +103,7 @@ async function getOIDCClient(settings: OIDCSettings): Promise<BaseClient> {
 		client_secret: OIDConfig.CLIENT_SECRET,
 		redirect_uris: [settings.redirectURI],
 		response_types: ["code"],
-		[custom.clock_tolerance]: OIDConfig.TOLERANCE || undefined,
-		[custom.http_options]: ({url, options}: {url: any, options:any}) => {
-			console.log(url);
-			return { timeout: 10000}
-		}
+		[custom.clock_tolerance]: OIDConfig.TOLERANCE || undefined
 	});
 }
 

@@ -1,6 +1,6 @@
 import { authCondition } from "$lib/server/auth";
 import { collections } from "$lib/server/database";
-import type { SharedConversation } from "$lib/types/SharedConversation";
+// import type { SharedConversation } from "$lib/types/SharedConversation";
 import { getShareUrl } from "$lib/utils/getShareUrl";
 import { hashConv } from "$lib/utils/hashConv";
 import { error } from "@sveltejs/kit";
@@ -19,32 +19,32 @@ export async function POST({ params, url, locals }) {
 
 	const hash = await hashConv(conversation);
 
-	const existingShare = await collections.sharedConversations.findOne({ hash });
+	// const existingShare = await collections.sharedConversations.findOne({ hash });
 
-	if (existingShare) {
-		return new Response(
-			JSON.stringify({
-				url: getShareUrl(url, existingShare._id),
-			}),
-			{ headers: { "Content-Type": "application/json" } }
-		);
-	}
+	// if (existingShare) {
+	// 	return new Response(
+	// 		JSON.stringify({
+	// 			url: getShareUrl(url, existingShare._id),
+	// 		}),
+	// 		{ headers: { "Content-Type": "application/json" } }
+	// 	);
+	// }
 
-	const shared: SharedConversation = {
-		_id: nanoid(7),
-		hash,
-		createdAt: new Date(),
-		updatedAt: new Date(),
-		rootMessageId: conversation.rootMessageId,
-		messages: conversation.messages,
-		title: conversation.title,
-		model: conversation.model,
-		embeddingModel: conversation.embeddingModel,
-		preprompt: conversation.preprompt,
-		assistantId: conversation.assistantId,
-	};
+	// const shared: SharedConversation = {
+	// 	_id: nanoid(7),
+	// 	hash,
+	// 	createdAt: new Date(),
+	// 	updatedAt: new Date(),
+	// 	rootMessageId: conversation.rootMessageId,
+	// 	messages: conversation.messages,
+	// 	title: conversation.title,
+	// 	model: conversation.model,
+	// 	embeddingModel: conversation.embeddingModel,
+	// 	preprompt: conversation.preprompt,
+	// 	assistantId: conversation.assistantId,
+	// };
 
-	await collections.sharedConversations.insertOne(shared);
+	// await collections.sharedConversations.insertOne(shared);
 
 	// copy files from `${conversation._id}-` to `${shared._id}-`
 	const files = await collections.bucket

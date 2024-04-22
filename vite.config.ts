@@ -27,5 +27,6 @@ export default defineConfig({
 	],
 	optimizeDeps: {
 		include: ["browser-image-resizer", "uuid"],
+		exclude: ["fsevents"]
 	},
 });

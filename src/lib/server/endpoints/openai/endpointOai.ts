@@ -78,18 +78,30 @@ export async function endpointOai(
 
 			const parameters = { ...model.parameters, ...generateSettings };
 
-			return openAIChatToTextGenerationStream(
-				await openai.chat.completions.create({
-					model: model.id ?? model.name,
-					messages: messagesOpenAI,
-					stream: true,
-					max_tokens: parameters?.max_new_tokens,
-					stop: parameters?.stop,
-					temperature: parameters?.temperature,
-					top_p: parameters?.top_p,
-					frequency_penalty: parameters?.repetition_penalty,
-				})
-			);
+			let ken = await openai.chat.completions.create({
+				model: model.id ?? model.name,
+				messages: messagesOpenAI,
+				stream: true,
+				max_tokens: parameters?.max_new_tokens,
+				stop: parameters?.stop,
+				temperature: parameters?.temperature,
+				top_p: parameters?.top_p,
+				frequency_penalty: parameters?.repetition_penalty,
+			});
+
+			return openAIChatToTextGenerationStream(ken);
+			// return openAIChatToTextGenerationStream(
+			// 	await openai.chat.completions.create({
+			// 		model: model.id ?? model.name,
+			// 		messages: messagesOpenAI,
+			// 		stream: true,
+			// 		max_tokens: parameters?.max_new_tokens,
+			// 		stop: parameters?.stop,
+			// 		temperature: parameters?.temperature,
+			// 		top_p: parameters?.top_p,
+			// 		frequency_penalty: parameters?.repetition_penalty,
+			// 	})
+			// );
 		};
 	} else {
 		throw new Error("Invalid completion type");

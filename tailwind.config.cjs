@@ -16,7 +16,10 @@ export default {
 			fontSize: {
 				xxs: "0.625rem",
 				smd: "0.94rem",
-			}
+			},
+			fontFamily: {
+				'sans': ['"Proxima Nova"', ...defaultTheme.fontFamily.sans],
+			},
 		},
 	},
 	plugins: [

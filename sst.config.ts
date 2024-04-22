@@ -6,7 +6,6 @@ export default {
     return {
       name: "pregpt-ui",
       region: "us-west-2",
-      profile: "default"
     };
   },
   stacks(app) {

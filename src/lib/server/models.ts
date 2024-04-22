@@ -50,11 +50,11 @@ const modelConfig = z.object({
 		.string()
 		.default(
 			"{{preprompt}}" +
-				"{{#each messages}}" +
-				"{{#ifUser}}{{@root.userMessageToken}}{{content}}{{@root.userMessageEndToken}}{{/ifUser}}" +
-				"{{#ifAssistant}}{{@root.assistantMessageToken}}{{content}}{{@root.assistantMessageEndToken}}{{/ifAssistant}}" +
-				"{{/each}}" +
-				"{{assistantMessageToken}}"
+			"{{#each messages}}" +
+			"{{#ifUser}}{{@root.userMessageToken}}{{content}}{{@root.userMessageEndToken}}{{/ifUser}}" +
+			"{{#ifAssistant}}{{@root.assistantMessageToken}}{{content}}{{@root.assistantMessageEndToken}}{{/ifAssistant}}" +
+			"{{/each}}" +
+			"{{assistantMessageToken}}"
 		),
 	promptExamples: z
 		.array(
@@ -123,7 +123,8 @@ const addEndpoint = (m: Awaited<ReturnType<typeof processModel>>) => ({
 					case "aws":
 						return await endpoints.aws(args);
 					case "openai":
-						return await endpoints.openai(args);
+						let ken2 = await endpoints.openai(args);
+						return ken2;
 					case "llamacpp":
 						return endpoints.llamacpp(args);
 					case "ollama":
@@ -151,15 +152,15 @@ export const defaultModel = models[0];
 // Models that have been deprecated
 export const oldModels = OLD_MODELS
 	? z
-			.array(
-				z.object({
-					id: z.string().optional(),
-					name: z.string().min(1),
-					displayName: z.string().min(1).optional(),
-				})
-			)
-			.parse(JSON5.parse(OLD_MODELS))
-			.map((m) => ({ ...m, id: m.id || m.name, displayName: m.displayName || m.name }))
+		.array(
+			z.object({
+				id: z.string().optional(),
+				name: z.string().min(1),
+				displayName: z.string().min(1).optional(),
+			})
+		)
+		.parse(JSON5.parse(OLD_MODELS))
+		.map((m) => ({ ...m, id: m.id || m.name, displayName: m.displayName || m.name }))
 	: [];
 
 export const validateModel = (_models: BackendModel[]) => {
@@ -171,10 +172,10 @@ export const validateModel = (_models: BackendModel[]) => {
 
 export const smallModel = TASK_MODEL
 	? (models.find((m) => m.name === TASK_MODEL) ||
-			(await processModel(modelConfig.parse(JSON5.parse(TASK_MODEL))).then((m) =>
-				addEndpoint(m)
-			))) ??
-	  defaultModel
+		(await processModel(modelConfig.parse(JSON5.parse(TASK_MODEL))).then((m) =>
+			addEndpoint(m)
+		))) ??
+	defaultModel
 	: defaultModel;
 
 export type BackendModel = Optional<

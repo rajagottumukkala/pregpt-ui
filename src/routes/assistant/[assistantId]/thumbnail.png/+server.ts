@@ -8,8 +8,10 @@ import { Resvg } from "@resvg/resvg-js";
 import satori from "satori";
 import { html } from "satori-html";
 
-import InterRegular from "../../../../../static/fonts/Inter-Regular.ttf";
-import InterBold from "../../../../../static/fonts/Inter-Bold.ttf";
+// import InterRegular from "../../../../../static/fonts/Inter-Regular.ttf";
+// import InterBold from "../../../../../static/fonts/Inter-Bold.ttf";
+import ProximaRegular from "../../../../../static/fonts/Proxima-Nove-Regular.ttf";
+import ProximaBold from "../../../../../static/fonts/Proxima-Nove-Regular.ttf";
 import sharp from "sharp";
 
 export const GET: RequestHandler = (async ({ params }) => {
@@ -58,12 +60,12 @@ export const GET: RequestHandler = (async ({ params }) => {
 		fonts: [
 			{
 				name: "Inter",
-				data: InterRegular as unknown as ArrayBuffer,
+				data: ProximaRegular as unknown as ArrayBuffer,
 				weight: 500,
 			},
 			{
 				name: "Inter",
-				data: InterBold as unknown as ArrayBuffer,
+				data: ProximaBold as unknown as ArrayBuffer,
 				weight: 700,
 			},
 		],

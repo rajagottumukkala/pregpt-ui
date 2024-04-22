@@ -32,6 +32,7 @@
 	import SystemPromptModal from "../SystemPromptModal.svelte";
 	import ChatIntroduction from "./ChatIntroduction.svelte";
 	import { useConvTreeStore } from "$lib/stores/convTree";
+	import ModalDetails from "../ModalDetails.svelte";
 
 	export let messages: Message[] = [];
 	export let loading = false;
@@ -353,8 +354,9 @@
 				<p>
 					Model:
 					{#if !assistant}
-						<a href="{base}/settings/{currentModel.id}" class="hover:underline"
-							>{currentModel.displayName}</a
+						<a
+							href="{base}/settings/{currentModel.id}"
+							class="text-gray-800 hover:underline dark:text-gray-200">{currentModel.displayName}</a
 						>{:else}
 						{@const model = models.find((m) => m.id === assistant?.modelId)}
 						<a

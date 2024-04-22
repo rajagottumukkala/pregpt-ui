@@ -16,6 +16,7 @@
 	import CarbonPen from "~icons/carbon/pen";
 	import CarbonChevronLeft from "~icons/carbon/chevron-left";
 	import CarbonChevronRight from "~icons/carbon/chevron-right";
+	import CarbonUser from "~icons/carbon/user";
 
 	import { PUBLIC_SEP_TOKEN } from "$lib/constants/publicSepToken";
 	import type { Model } from "$lib/types/Model";
@@ -24,6 +25,7 @@
 	import type { WebSearchUpdate } from "$lib/types/MessageUpdate";
 	import { base } from "$app/paths";
 	import { useConvTreeStore } from "$lib/stores/convTree";
+	import Logo from "../icons/Logo.svelte";
 
 	function sanitizeMd(md: string) {
 		let ret = md
@@ -193,11 +195,12 @@
 				class="mt-5 h-3 w-3 flex-none select-none rounded-full shadow-lg"
 			/>
 		{:else}
-			<img
+			<Logo classNames="h-6" />
+			<!-- <img
 				alt=""
 				src="https://huggingface.co/avatars/2edb18bd0206c16b433841a47f53fa8e.svg"
 				class="mt-5 h-3 w-3 flex-none select-none rounded-full shadow-lg"
-			/>
+			/> -->
 		{/if}
 		<div
 			class="relative min-h-[calc(2rem+theme(spacing[3.5])*2)] min-w-[60px] break-words rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 px-5 py-3.5 text-gray-600 prose-pre:my-2 dark:border-gray-800 dark:from-gray-800/40 dark:text-gray-300"
@@ -299,7 +302,7 @@
 {/if}
 {#if message.from === "user"}
 	<div
-		class="group relative w-full items-start justify-start gap-4 max-sm:text-sm"
+		class="group relative flex w-full items-start gap-4 max-sm:text-sm"
 		role="presentation"
 		on:click={() => (isTapped = !isTapped)}
 		on:keydown={() => (isTapped = !isTapped)}
@@ -329,11 +332,15 @@
 
 			<div class="flex w-full flex-row flex-nowrap">
 				{#if !editMode}
-					<p
-						class="disabled w-full appearance-none whitespace-break-spaces text-wrap break-words bg-inherit px-5 py-3.5 text-gray-500 dark:text-gray-400"
-					>
-						{message.content.trim()}
-					</p>
+					<div class="just flex py-5">
+						<dic class="pr-5 text-lg"><CarbonUser /></dic>
+
+						<p
+							class="disabled w-full appearance-none whitespace-break-spaces text-wrap break-words bg-inherit text-gray-500 dark:text-gray-400"
+						>
+							{message.content.trim()}
+						</p>
+					</div>
 				{:else}
 					<form
 						class="flex w-full flex-col"

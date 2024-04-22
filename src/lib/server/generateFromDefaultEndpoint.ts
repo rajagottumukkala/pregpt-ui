@@ -8,11 +8,13 @@ export async function generateFromDefaultEndpoint({
 	messages: Omit<Conversation["messages"][0], "id">[];
 	preprompt?: string;
 }): Promise<string> {
+	console.log(smallModel);
 	const endpoint = await smallModel.getEndpoint();
 
 	const tokenStream = await endpoint({ messages, preprompt });
 
 	for await (const output of tokenStream) {
+		console.log(JSON.stringify(output));
 		// if not generated_text is here it means the generation is not done
 		if (output.generated_text) {
 			let generated_text = output.generated_text;

@@ -28,7 +28,7 @@
 </script>
 
 <div class="my-auto grid gap-8 lg:grid-cols-3">
-	<div class="lg:col-span-1">
+	<!-- <div class="lg:col-span-1">
 		<div>
 			<div class="mb-3 flex items-center text-2xl font-semibold">
 				<Logo classNames="mr-1 flex-none" />
@@ -44,7 +44,7 @@
 					"Making the community's best AI chat models available to everyone."}
 			</p>
 		</div>
-	</div>
+	</div> -->
 	<div class="lg:col-span-2 lg:pl-24">
 		{#each announcementBanners as banner}
 			<AnnouncementBanner classNames="mb-4" title={banner.title}>

@@ -19,6 +19,8 @@ import {
 import { ObjectId } from "mongodb";
 import type { ConvSidebar } from "$lib/types/ConvSidebar";
 
+console.log("Requires user:" + requiresUser);
+
 export const load: LayoutServerLoad = async ({ locals, depends }) => {
 	depends(UrlDependency.ConversationList);
 
@@ -53,12 +55,12 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 
 	const assistant = assistantActive
 		? JSON.parse(
-				JSON.stringify(
-					await collections.assistants.findOne({
-						_id: new ObjectId(settings?.activeModel),
-					})
-				)
-		  )
+			JSON.stringify(
+				await collections.assistants.findOne({
+					_id: new ObjectId(settings?.activeModel),
+				})
+			)
+		)
 		: null;
 
 	const conversations = await collections.conversations
@@ -91,27 +93,30 @@ export const load: LayoutServerLoad = async ({ locals, depends }) => {
 
 	let loginRequired = false;
 
-	if (requiresUser && !locals.user && messagesBeforeLogin) {
-		if (conversations.length > messagesBeforeLogin) {
-			loginRequired = true;
-		} else {
-			// get the number of messages where `from === "assistant"` across all conversations.
-			const totalMessages =
-				(
-					await collections.conversations
-						.aggregate([
-							{ $match: { ...authCondition(locals), "messages.from": "assistant" } },
-							{ $project: { messages: 1 } },
-							{ $limit: messagesBeforeLogin + 1 },
-							{ $unwind: "$messages" },
-							{ $match: { "messages.from": "assistant" } },
-							{ $count: "messages" },
-						])
-						.toArray()
-				)[0]?.messages ?? 0;
+	//if (requiresUser && !locals.user && (messagesBeforeLogin >= 0)) {
+	// PRESEARCH: Removing messagescount check as we do not want to enable this
+	if (requiresUser && !locals.user) {
+		loginRequired = true;
+		// if (conversations.length > messagesBeforeLogin) {
+		// 	loginRequired = true;
+		// } else {
+		// 	// get the number of messages where `from === "assistant"` across all conversations.
+		// 	const totalMessages =
+		// 		(
+		// 			await collections.conversations
+		// 				.aggregate([
+		// 					{ $match: { ...authCondition(locals), "messages.from": "assistant" } },
+		// 					{ $project: { messages: 1 } },
+		// 					{ $limit: messagesBeforeLogin + 1 },
+		// 					{ $unwind: "$messages" },
+		// 					{ $match: { "messages.from": "assistant" } },
+		// 					{ $count: "messages" },
+		// 				])
+		// 				.toArray()
+		// 		)[0]?.messages ?? 0;
 
-			loginRequired = totalMessages > messagesBeforeLogin;
-		}
+		// 	loginRequired = totalMessages > messagesBeforeLogin;
+		// }
 	}
 
 	return {

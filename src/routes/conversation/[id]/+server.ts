@@ -419,6 +419,7 @@ export async function POST({ request, locals, params, getClientAddress }) {
 					continueMessage: isContinue,
 					generateSettings: assistant?.generateSettings,
 				})) {
+					console.log(output);
 					// if not generated_text is here it means the generation is not done
 					if (!output.generated_text) {
 						if (!output.token.special) {
